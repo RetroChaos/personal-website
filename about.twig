@@ -1,0 +1,52 @@
+{% extends '_baseTemplate' %}
+
+{% block body %}
+    <div class="container py-3">
+        <div class="text-center" style="border-bottom: 1px solid hsl(233, 5%, 20%);">
+            <h1 class="my-5">About <span><b>Me</b></span></h1>
+            <p>{{entry.abt_intro}}</p>
+        </div>
+        
+        <div class="row justify-content-between">
+
+            <div class="col-md-8 text-center">
+                {% for category in entry.abt_skillsMatrix.all() %}
+                    <!--New Category-->
+                        <h2 class="mt-3">{{category.categoryTitle}}</h2>
+                        <div class="py-3 row justify-content-center flex-wrap">
+                            {% for skill in category.skillTable %}
+                                <!--Skill Icon + Confidence Percentage-->
+                                <div class="d-inline-flex align-items-center justify-content-center about-icon-block pt-2">
+                                    <div>
+                                        <i class="fab {{skill.fontAwesomeIcon ?? ''}}"></i>
+                                        <p>{{skill.title ?? ''}}</p>
+                                        <span class="pcnt pcnt-bg pcnt-{{skill.percent ?? ''}}"></span>
+                                        <span class="pcnt pcnt-value d-flex align-items-center justify-content-center">{{skill.percent ?? ''}}%</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    <hr>
+                {% endfor %}    
+            </div>
+
+            <div class="col-md-4">
+                <h2 class="mt-3">Education & Employment</h2>
+                <div class="resume-box">
+                    <ul>
+                        {% for block in entry.abt_educationEmployment.all() %}
+                        <li>
+                            <div class="icon">{% if block.educationOrEmployment == 'employment' %}<i class="fa fa-briefcase"></i>{% endif %}{% if block.educationOrEmployment == 'education' %}<i class="fa fa-graduation-cap"></i>{% endif %}</div>
+                            <span class="time">{{block.dates}}</span>
+                            <h5>{{block.jobTitle}}</h5>
+                            <p>{{block.description}}</p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

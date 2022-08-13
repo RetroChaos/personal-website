@@ -1,0 +1,50 @@
+{% extends '_baseTemplate' %}
+
+{% block body %}
+    <div class="container px-2 py-3 full-height">
+        <h1 class="text-center my-5">Contact <span><b>Me</b></span></h1>
+        <div class="row mb-5">
+            <div class="col-12 col-lg-4">
+                <h3 class="pb-3">Don't be shy!</h3>
+                <p class="mb-3">{{entry.cnt_intro}}</p>
+                <p class="contact-direct position-relative">
+                    <i class="fa fa-envelope-open position-absolute"></i>
+                    <span class="d-block">Direct E-Mail</span><a href='mailto:contactus@juniper-studios.com'>contactus@juniper-studios.com</a>
+                </p>
+            </div>
+            <!-- Left Side Ends -->
+            <!-- Contact Form Starts -->
+            <div class="col-12 col-lg-8">
+                <form class="contactform" method="post" action="" aacept-charset="UTF-8">
+                    {{ csrfInput() }}
+                    <input type="hidden" name="action" value="contact-form/send">
+                    <div class="contactform">
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <input type="text" name="fromName" placeholder="YOUR NAME" value="{{ message.fromName ?? '' }}">
+                            </div>
+                            <div class="col-12 col-md-8">
+                                <input type="email" name="fromEmail" placeholder="YOUR EMAIL" value="{{ message.fromEmail ?? '' }}">
+                            </div>
+                            <div class="col-12">
+                                <input type="text" name="subject" placeholder="YOUR SUBJECT" value="{{ message.subject ?? '' }}">
+                                <input id="mainText" name="mainText" type="text">
+                            </div>
+                            <div class="col-12">
+                                <textarea name="message" placeholder="YOUR MESSAGE">{{ message.message ?? '' }}</textarea>
+                                <button type="submit" name="Send" class="btn btn-contact"><span data-hover="Send Message">Send Message</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- Contact Form Ends -->
+        </div>
+        {% if craft.app.session.hasFlash('notice') %}
+            <p class="message notice">{{ craft.app.session.getFlash('notice') }}</p>
+        {% elseif craft.app.session.hasFlash('error') %}
+            <p class="message error">{{ craft.app.session.getFlash('error') }}</p>
+        {% endif %}
+    </div>
+{% endblock %}
+    
