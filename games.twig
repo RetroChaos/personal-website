@@ -1,0 +1,33 @@
+{% extends '_baseTemplate' %}
+{% set metaTitle = 'Juniper Studios - Games Index' %}
+
+{% block body %}
+  <div class="container py-3 px-2">
+    <h1 class="text-center mt-5 mb-2"><span style="color: hsl(233, 5%, 20%)">Our</span> <b>Games</b></h1>
+  </div>
+    
+  <div class="container full-height">
+    <div class="d-flex justify-content-center flex-wrap">
+      {% for entry in craft.entries.section('game').all() %}
+      {% set logo = entry.gameLogo.one().url %}
+        <!--Game Card Start-->
+        <div class="game-card">
+          <div class="row">
+            <div class="col-lg-6 col-12 d-flex justify-content-center">
+              <img src="{{logo}}" alt="{{entry.title}}">
+            </div>
+            <div class="col-lg-6 col-12 align-self-center">
+              <h4 class="text-lg-left text-center mt-1">{{entry.gameTagline}}</h4>          
+              {{(entry.gameDescription|length > 400 ? entry.gameDescription|slice(0, 400) ~ '...' : entry.gameDescription)|raw}}
+            </div>
+            <div class="row btn-container my-3">
+              <a href="games/{{entry.slug}}" class="btn"><span data-hover="Learn More">Learn More</span></a>
+              <a href="games/{{entry.slug}}#where-to-buy" class="btn"><span data-hover="Where To Buy">Where To Buy</span></a>
+            </div>
+          </div> 
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+{% endblock %}

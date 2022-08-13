@@ -1,0 +1,130 @@
+{% extends '_baseTemplate' %}
+
+    {% block body %}
+        <div id="welcome" style="min-height: 100vh;">
+            <div class="color-block d-none d-lg-block"></div>
+            <div class="row align-items-center" style="height: 100vh;">
+                <div class="col-12 col-lg-8 offset-lg-4 text-sm-center text-lg-left">
+                    <div class="mr-vertical-nav px-2">
+                        <h6 class="mb-0 d-block d-sm-none d-lg-block">hi there!</h6>
+                        <h1><span>Welcome To</span><b> Juniper Studios</b></h1>
+                        <p>{{entry.hmpg_intro}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="about">
+            <div class="container align-items-center text-center row mx-auto px-2" style="min-height: 610px;">
+                <div>
+                    <h1><span>My</span><b> Personal </b><span>& Portfolio Site</span></h1>
+                    <h4>{{entry.hmpg_aboutSubtitle}}</h4>
+                    <p>{{entry.hmpg_aboutText}}</p>
+                    <a href="about" class="btn"><span data-hover="Learn More">Continue Reading</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div id="games">
+            <div class="container mx-auto p-2" style="min-height: 610px;">
+                <h1 style="text-align: center; margin-top: 0.5em">Newest <span>Release</span></h1>
+                <div class="row py-3">
+                    {% for newest in craft.entries.section('game').limit(1).all() %}
+                        {% set poster = newest.gamePosterImage.one().url %}
+                        <div class="col-md-6">
+                            <img src="{{poster}}" alt="{{newest.title}}" id="release-homepage-img">
+                        </div>
+                        <div class="col-md-6 align-self-center py-3 text-center text-sm-left">
+                            <div>
+                                <h2>{{newest.title}}</h2>
+                                <h5>{{newest.gameTagline}}</h5>
+                                <p> {{(newest.gameDescription|length > 400 ? newest.gameDescription|slice(0, 400) ~ '...' : newest.gameDescription)|raw}} </p>
+                                <a href="games/{{newest.slug}}" class="btn"><span data-hover="Learn More">Learn More</span></a>
+                                <a href="games/{{newest.slug}}#where-to-buy" class="btn"><span data-hover="Where To Buy">Where To Buy</span></a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div id="blog">
+            <div class="container align-items-center row mx-auto px-2 py-3">
+                <h1 style="color: hsl(233, 5%, 20%)" class="mx-auto my-5"><span style="color: #f0c90e"><b>Random Ramblings:</b></span> My Blog</h1>
+                <div class="container row text-center justify-content-center">
+                    {% for post in craft.entries.section('blog').limit(3).all() %}
+                        {% set thumb = post.blogThumb.one().url %}
+                        <!-- Articles Starts -->
+                        <div class="col-12 col-md-6 col-lg-6 col-xl-4 mb-5">
+                            <a href="/blog/{{post.slug}}">
+                                <article class="post-container">
+                                    <div class="post-thumb">
+                                        <div class="d-block position-relative overflow-hidden post-thumb-wrapper">
+                                            <img src="{{thumb}}" alt="{{post.title}}">
+                                        </div>
+                                    </div>
+                                    <div class="post-content">
+                                        <h3 class="entry-header">{{post.title}}</h3>
+                                        <p>{{ (post.blogMain|length > 150 ? post.blogMain|slice(0, 150) ~ '...' : post.blogMain)|raw }}</p>
+                                    </div>
+                                </article>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            <a href="blog" class="btn btn-about mx-auto"><span data-hover="Read More">View All Blog Entries</span></a>
+            </div>
+        </div>
+
+        <div id="contact">
+            <div class="container align-items-center text-center row mx-auto px-2" style="min-height: 610px;">
+                <div class="col-sm-6">
+                    <h1>Direct Contact</h1>
+                    <p><i class="fas fa-envelope"></i> <a href='mailto:contactus@juniper-studios.com'>contactus@juniper-studios.com</a></p>
+                </div>
+                <div class="col-sm-6" id="contact-us-hmpg">
+                    <h1>Fill Out Our Form</h1>
+                    <p>{{entry.hmpg_contactText}}</p>
+                    <a href="contact" class="btn"><span data-hover="Contact Me">Contact Me</span></a>
+                </div>
+            </div>
+        </div>
+
+
+        <!--Side Nav-->
+        <nav class="vertical-nav">
+            <ul class="icon-menu d-none d-lg-block">
+                <li type="button" class="icon-box active">
+                    <i class="fa fa-home"></i>
+                    <a href="#welcome">
+                        <h2>Welcome</h2>
+                    </a>
+                </li>
+                <li type="button" class="icon-box">
+                    <i class="fa fa-user"></i>
+                    <a href="#about">
+                        <h2>About</h2>
+                    </a>
+                </li>
+                <li type="button" class="icon-box">
+                    <i class="fa fa-gamepad"></i>
+                    <a href="#games">
+                        <h2>Games</h2>
+                    </a>
+                </li>
+                <li type="button" class="icon-box">
+                    <i class="fa fa-comments"></i>
+                    <a href="#blog">
+                        <h2>Blog</h2>
+                    </a>
+                </li>
+                <li type="button" class="icon-box">
+                    <i class="fa fa-envelope-open"></i>
+                    <a href="#contact">
+                        <h2>Contact</h2>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+    {% endblock %}
